@@ -3,10 +3,11 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useState } from 'react';
 
 export default function App() {
+  const appName = 'My First React Native App';
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>Welcome to {appName}</Text>
       <StatusBar style="auto" />
     </View>
   );
