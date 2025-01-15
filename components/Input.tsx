@@ -1,4 +1,4 @@
-import { View, TextInput } from 'react-native'
+import { View, TextInput, Text } from 'react-native'
 import React from 'react'
 
 interface InputProps {
@@ -16,6 +16,9 @@ const Input = ({focus} : InputProps) => {
         placeholder="Type something"
         autoFocus={focus}
       />
+      {text &&
+        <Text>Count: {text.length}</Text>
+      }
     </View>
   )
 }
