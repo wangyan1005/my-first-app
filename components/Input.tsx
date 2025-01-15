@@ -7,6 +7,7 @@ interface InputProps {
 
 const Input = ({focus} : InputProps) => {
   const [text, setText] = React.useState('');
+  const [isFocused, setIsFocused] = React.useState(true);
 
   return (
     <View>
@@ -15,9 +16,20 @@ const Input = ({focus} : InputProps) => {
         onChangeText={(changeText) => setText(changeText)}
         placeholder="Type something"
         autoFocus={focus}
+        onEndEditing={() => setIsFocused(false)}
+        onFocus={() => setIsFocused(true)}
       />
-      {text &&
+
+      {text && isFocused &&
         <Text>Count: {text.length}</Text>
+      }
+
+      {!isFocused && text.length >= 3 && 
+        <Text>Thank you</Text>
+      }
+
+      {!isFocused && text.length < 3 && 
+        <Text>Please type more than 3 characters</Text>
       }
     </View>
   )
