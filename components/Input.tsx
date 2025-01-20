@@ -1,4 +1,4 @@
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput, Text, Button } from 'react-native'
 import React from 'react'
 
 interface InputProps {
@@ -8,6 +8,10 @@ interface InputProps {
 const Input = ({focus} : InputProps) => {
   const [text, setText] = React.useState('');
   const [isFocused, setIsFocused] = React.useState(true);
+
+  function handleConfirm() {
+    console.log("user has typed: ", text);
+  }
 
   return (
     <View>
@@ -31,6 +35,12 @@ const Input = ({focus} : InputProps) => {
       {!isFocused && text.length < 3 && 
         <Text>Please type more than 3 characters</Text>
       }
+
+      <Button 
+        title="confirm" 
+        onPress={handleConfirm} 
+      />
+    
     </View>
   )
 }
