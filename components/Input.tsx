@@ -1,12 +1,13 @@
-import { View, TextInput, Text, Button } from 'react-native'
+import { View, TextInput, Text, Button, StyleSheet, Modal } from 'react-native'
 import React from 'react'
 
 interface InputProps {
   focus: boolean
   inputHandler: (data: string) => void
+  visibility: boolean
 }
 
-const Input = ({focus, inputHandler} : InputProps) => {
+const Input = ({focus, inputHandler, visibility} : InputProps) => {
   const [text, setText] = React.useState('');
   const [isFocused, setIsFocused] = React.useState(true);
 
@@ -15,8 +16,11 @@ const Input = ({focus, inputHandler} : InputProps) => {
     inputHandler(text)
   }
 
+ 
+
   return (
-    <View>
+    <Modal animationType='slide' visible={visibility}>
+    <View style={styles.container}>
       <TextInput 
         value={text} 
         onChangeText={(changeText) => setText(changeText)}
@@ -37,14 +41,24 @@ const Input = ({focus, inputHandler} : InputProps) => {
       {!isFocused && text.length < 3 && 
         <Text>Please type more than 3 characters</Text>
       }
-
+      
       <Button 
         title="confirm" 
         onPress={handleConfirm} 
-      />
-    
+      />  
     </View>
+    </Modal>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
 
 export default Input
