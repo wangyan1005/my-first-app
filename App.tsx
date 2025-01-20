@@ -5,14 +5,13 @@ import Header from './components/Header';
 import Input from './components/Input';
 
 export default function App() {
-
   const appName = 'My First React Native App';
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header name={appName} />
-      <Input />      
+      <Input focus={true} />   
     </View>
   );
 }
