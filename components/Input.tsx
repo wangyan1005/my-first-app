@@ -3,14 +3,16 @@ import React from 'react'
 
 interface InputProps {
   focus: boolean
+  inputHandler: (data: string) => void
 }
 
-const Input = ({focus} : InputProps) => {
+const Input = ({focus, inputHandler} : InputProps) => {
   const [text, setText] = React.useState('');
   const [isFocused, setIsFocused] = React.useState(true);
 
   function handleConfirm() {
-    console.log("user has typed: ", text);
+    // console.log('user has typed in:', text)
+    inputHandler(text)
   }
 
   return (
