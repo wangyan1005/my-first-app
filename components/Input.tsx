@@ -19,8 +19,9 @@ const Input = ({focus, inputHandler, visibility} : InputProps) => {
  
 
   return (
-    <Modal animationType='slide' visible={visibility}>
+    <Modal transparent={true} animationType='slide' visible={visibility}>
     <View style={styles.container}>
+      <View style={styles.modalContainer}>
       <TextInput 
         value={text} 
         onChangeText={(changeText) => setText(changeText)}
@@ -45,7 +46,8 @@ const Input = ({focus, inputHandler, visibility} : InputProps) => {
       <Button 
         title="confirm" 
         onPress={handleConfirm} 
-      />  
+      /> 
+      </View>
     </View>
     </Modal>
   )
@@ -54,10 +56,15 @@ const Input = ({focus, inputHandler, visibility} : InputProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  modalContainer: {
+    backgroundColor: '#eee',
+    padding: 10,
+    borderRadius: 10,
+  }
 });
 
 
