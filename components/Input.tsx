@@ -15,6 +15,7 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
   function handleConfirm() {
     // console.log('user has typed in:', text)
     inputHandler(text)
+    setText('')
   }
 
   function handleCancel() {
@@ -23,9 +24,10 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
         text: 'Cancel',
         style: 'cancel',
       },
-      // the modal should be s=dismised
+      // the modal should be dismissed
       {text: 'OK', onPress: () => onDismiss()},
     ]);
+    setText('')
   }
 
  
@@ -59,14 +61,15 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
           <View style={styles.buttonContainer}>
             <View style={styles.button} >
               <Button 
-                title="Confirm" 
-                onPress={handleConfirm} 
+                title="Cancel" 
+                onPress={handleCancel} 
               />
             </View>
             <View style={styles.button} >
               <Button 
-                title="Cancel" 
-                onPress={handleCancel} 
+                title="Confirm" 
+                onPress={handleConfirm} 
+                disabled={text.length < 3}
               />
             </View>
           </View>
