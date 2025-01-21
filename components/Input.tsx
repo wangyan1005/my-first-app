@@ -22,7 +22,8 @@ const Input = ({focus, inputHandler, visibility} : InputProps) => {
     <Modal transparent={true} animationType='slide' visible={visibility}>
     <View style={styles.container}>
       <View style={styles.modalContainer}>
-      <TextInput 
+      <TextInput
+        style={styles.purple} 
         value={text} 
         onChangeText={(changeText) => setText(changeText)}
         placeholder="Type something"
@@ -62,8 +63,15 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: '#eee',
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
+    alignItems: 'center', 
+  },
+  purple: {
+    height: 25,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: 'mediumpurple',
   }
 });
 

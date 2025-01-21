@@ -22,12 +22,12 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.topContainer}>
-      <Header name={appName} />
-      <Input focus={true} inputHandler={handleInputData} visibility={isModalVisible} /> 
-      <Button title="Add a goal" onPress={() => setIsModalVisible(true)} />
+        <Header name={appName} />
+        <Input focus={true} inputHandler={handleInputData} visibility={isModalVisible} /> 
+        <Button title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
-      <Text>{receivedData}</Text> 
+        <Text style={styles.slateBlue}>{receivedData}</Text> 
       </View> 
     </SafeAreaView>
     
@@ -50,6 +50,11 @@ const styles = StyleSheet.create({
     flex: 4,
     backgroundColor: 'lightblue',
     alignItems: 'center',
-  }
-  
+  },
+  slateBlue: {
+    marginTop: 40,
+    color: 'mediumslateblue',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
 });
