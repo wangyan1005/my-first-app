@@ -1,13 +1,14 @@
-import { View, TextInput, Text, Button, StyleSheet, Modal } from 'react-native'
+import { View, TextInput, Text, Button, StyleSheet, Modal, Alert } from 'react-native'
 import React from 'react'
 
 interface InputProps {
   focus: boolean
   inputHandler: (data: string) => void
   visibility: boolean
+  onDismiss: () => void
 }
 
-const Input = ({focus, inputHandler, visibility} : InputProps) => {
+const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
   const [text, setText] = React.useState('');
   const [isFocused, setIsFocused] = React.useState(true);
 
@@ -16,40 +17,61 @@ const Input = ({focus, inputHandler, visibility} : InputProps) => {
     inputHandler(text)
   }
 
+  function handleCancel() {
+    Alert.alert('Confirm the Action', 'Decide to cancel?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      // the modal should be s=dismised
+      {text: 'OK', onPress: () => onDismiss()},
+    ]);
+  }
+
  
 
   return (
     <Modal transparent={true} animationType='slide' visible={visibility}>
-    <View style={styles.container}>
-      <View style={styles.modalContainer}>
-      <TextInput
-        style={styles.purple} 
-        value={text} 
-        onChangeText={(changeText) => setText(changeText)}
-        placeholder="Type something"
-        autoFocus={focus}
-        onEndEditing={() => setIsFocused(false)}
-        onFocus={() => setIsFocused(true)}
-      />
+      <View style={styles.container}>
+        <View style={styles.modalContainer}>
+          <TextInput
+            style={styles.purple} 
+            value={text} 
+            onChangeText={(changeText) => setText(changeText)}
+            placeholder="Type something"
+            autoFocus={focus}
+            onEndEditing={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+          />
 
-      {text && isFocused &&
-        <Text>Count: {text.length}</Text>
-      }
+          {text && isFocused &&
+            <Text>Count: {text.length}</Text>
+          }
 
-      {!isFocused && text.length >= 3 && 
-        <Text>Thank you</Text>
-      }
+          {!isFocused && text.length >= 3 && 
+            <Text>Thank you</Text>
+          }
 
-      {!isFocused && text.length < 3 && 
-        <Text>Please type more than 3 characters</Text>
-      }
-      
-      <Button 
-        title="confirm" 
-        onPress={handleConfirm} 
-      /> 
+          {!isFocused && text.length < 3 && 
+            <Text>Please type more than 3 characters</Text>
+          }
+          
+          <View style={styles.buttonContainer}>
+            <View style={styles.button} >
+              <Button 
+                title="Confirm" 
+                onPress={handleConfirm} 
+              />
+            </View>
+            <View style={styles.button} >
+              <Button 
+                title="Cancel" 
+                onPress={handleCancel} 
+              />
+            </View>
+          </View>
+        </View>
       </View>
-    </View>
     </Modal>
   )
 }
@@ -68,11 +90,20 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
   },
   purple: {
-    height: 25,
+    height: 30,
     borderRadius: 5,
     borderWidth: 2,
     borderColor: 'mediumpurple',
-  }
+  },
+  button: {
+    width: '30%',
+    marginTop: 5,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+
 });
 
 

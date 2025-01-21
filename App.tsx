@@ -23,8 +23,13 @@ export default function App() {
       <StatusBar style="auto" />
       <View style={styles.topContainer}>
         <Header name={appName} />
-        <Input focus={true} inputHandler={handleInputData} visibility={isModalVisible} /> 
-        <Button title="Add a goal" onPress={() => setIsModalVisible(true)} />
+        <Input 
+          focus={true} 
+          inputHandler={handleInputData} 
+          visibility={isModalVisible}
+          onDismiss={() => setIsModalVisible(false)} /> 
+        <Button 
+          title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
         <Text style={styles.slateBlue}>{receivedData}</Text> 
