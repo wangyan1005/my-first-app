@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slateBlue: {
-    marginTop: 10,
+    marginTop: 8,
     color: 'mediumslateblue',
     fontSize: 15,
     fontWeight: 'bold',
