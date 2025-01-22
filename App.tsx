@@ -17,8 +17,7 @@ export default function App() {
     setIsModalVisible(false)
   }
 
-  return (
-    
+  return (  
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.topContainer}>
@@ -32,7 +31,7 @@ export default function App() {
           title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
-        <Text style={styles.slateBlue}>{receivedData}</Text> 
+         {receivedData && <Text style={styles.slateBlue}>{receivedData}</Text>}  
       </View> 
     </SafeAreaView>
     
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 50,
   },
   topContainer: {
     alignItems: 'center',
@@ -57,9 +57,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slateBlue: {
-    marginTop: 40,
+    marginTop: 10,
     color: 'mediumslateblue',
-    fontSize: 30,
+    fontSize: 15,
     fontWeight: 'bold',
+    padding: 5,
+    backgroundColor: 'bisque',
+    borderRadius: 10,
   },
+
 });

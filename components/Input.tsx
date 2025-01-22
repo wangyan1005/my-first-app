@@ -1,4 +1,4 @@
-import { View, TextInput, Text, Button, StyleSheet, Modal, Alert } from 'react-native'
+import { View, TextInput, Text, Button, StyleSheet, Modal, Alert, Image } from 'react-native'
 import React from 'react'
 
 interface InputProps {
@@ -19,7 +19,7 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
   }
 
   function handleCancel() {
-    Alert.alert('Confirm the Action', 'Decide to cancel?', [
+    Alert.alert('Confirm the Action', 'wish to type again? click "Cancel"\nstop typing? click "OK"', [
       {
         text: 'Cancel',
         style: 'cancel',
@@ -30,12 +30,22 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
     setText('')
   }
 
- 
-
   return (
     <Modal transparent={true} animationType='slide' visible={visibility}>
       <View style={styles.container}>
         <View style={styles.modalContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../logo.png')}
+            alt = "local logo picture"
+          />
+          <Image
+            style={styles.logo}
+            source={{
+              uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png',
+            }}
+            alt = "remote logo picture"
+          />
           <TextInput
             style={styles.purple} 
             value={text} 
@@ -97,15 +107,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 2,
     borderColor: 'mediumpurple',
+    padding: 5,
+    marginTop: 15,
+    marginBottom: 10,
   },
   button: {
     width: '30%',
     marginTop: 5,
+    marginHorizontal: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+  logo: {
+    width: 100,
+    height: 100,
+  }
 
 });
 
