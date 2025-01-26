@@ -17,17 +17,21 @@ export default function App() {
     setIsModalVisible(false)
   }
 
-  return (
-    
+  return (  
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.topContainer}>
-      <Header name={appName} />
-      <Input focus={true} inputHandler={handleInputData} visibility={isModalVisible} /> 
-      <Button title="Add a goal" onPress={() => setIsModalVisible(true)} />
+        <Header name={appName} />
+        <Input 
+          focus={true} 
+          inputHandler={handleInputData} 
+          visibility={isModalVisible}
+          onDismiss={() => setIsModalVisible(false)} /> 
+        <Button 
+          title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
-      <Text>{receivedData}</Text> 
+         {receivedData && <Text style={styles.slateBlue}>{receivedData}</Text>}  
       </View> 
     </SafeAreaView>
     
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 50,
   },
   topContainer: {
     alignItems: 'center',
@@ -50,6 +55,15 @@ const styles = StyleSheet.create({
     flex: 4,
     backgroundColor: 'lightblue',
     alignItems: 'center',
-  }
-  
+  },
+  slateBlue: {
+    marginTop: 8,
+    color: 'mediumslateblue',
+    fontSize: 15,
+    fontWeight: 'bold',
+    padding: 5,
+    backgroundColor: 'bisque',
+    borderRadius: 10,
+  },
+
 });
