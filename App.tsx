@@ -3,8 +3,9 @@ import { StyleSheet, View, Text, Button, SafeAreaView, ScrollView, FlatList} fro
 import React from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
+import GoalItem from './components/GoalItem';
 
-interface Goal {
+export interface Goal {
   id: number;
   text: string;
 }
@@ -42,12 +43,10 @@ export default function App() {
       </View>
       <View style={styles.bottomContainer}>
        <FlatList 
-       contentContainerStyle={styles.centerHorizontal}
+        contentContainerStyle={styles.centerHorizontal}
         data={goals}
         renderItem={({item}) => (
-          <View>
-            <Text style={styles.slateBlue}>{item.text}</Text>
-          </View>
+          <GoalItem goal={item} />  
         )}
       />
       {/* <ScrollView contentContainerStyle={styles.centerHorizontal}>
@@ -83,15 +82,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
     // alignItems: 'center',
   },
-  slateBlue: {
-    marginTop: 8,
-    color: 'mediumslateblue',
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 10,
-    backgroundColor: 'bisque',
-    borderRadius: 10,
-  },
+  // slateBlue: {
+  //   marginTop: 8,
+  //   color: 'mediumslateblue',
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  //   padding: 10,
+  //   backgroundColor: 'bisque',
+  //   borderRadius: 10,
+  // },
   centerHorizontal: {
     alignItems: 'center',
   },
