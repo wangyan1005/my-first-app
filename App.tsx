@@ -11,8 +11,6 @@ interface Goal {
 
 export default function App() {
   const appName = 'My First React Native App';
-  // define a state variable to store the data from Input component
-  const [receivedData, setReceivedData] = React.useState('');
   const[isModalVisible, setIsModalVisible] = React.useState(false);
   const [goals, setGoals] = React.useState<Goal[]>([]);
 
@@ -43,7 +41,13 @@ export default function App() {
           title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
-         {receivedData && <Text style={styles.slateBlue}>{receivedData}</Text>}  
+        {goals.map((goal) => {
+          return (
+          <View key={goal.id}>
+            <Text style={styles.slateBlue}>{goal.text}</Text>
+          </View>
+         )}
+        )}
       </View> 
     </SafeAreaView>
     
