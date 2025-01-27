@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, Button, SafeAreaView, ScrollView, FlatList} from 'react-native';
 import React from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
@@ -41,6 +41,16 @@ export default function App() {
           title="Add a goal" onPress={() => setIsModalVisible(true)} />
       </View>
       <View style={styles.bottomContainer}>
+       <FlatList 
+       contentContainerStyle={styles.centerHorizontal}
+        data={goals}
+        renderItem={({item}) => (
+          <View>
+            <Text style={styles.slateBlue}>{item.text}</Text>
+          </View>
+        )}
+      />
+      {/* <ScrollView contentContainerStyle={styles.centerHorizontal}>
         {goals.map((goal) => {
           return (
           <View key={goal.id}>
@@ -48,7 +58,8 @@ export default function App() {
           </View>
          )}
         )}
-      </View> 
+      </ScrollView> */}
+      </View>
     </SafeAreaView>
     
   );
@@ -70,16 +81,19 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 4,
     backgroundColor: 'lightblue',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   slateBlue: {
     marginTop: 8,
     color: 'mediumslateblue',
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: 'bold',
-    padding: 5,
+    padding: 10,
     backgroundColor: 'bisque',
     borderRadius: 10,
+  },
+  centerHorizontal: {
+    alignItems: 'center',
   },
 
 });
