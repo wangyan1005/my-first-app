@@ -15,6 +15,13 @@ export default function App() {
   const[isModalVisible, setIsModalVisible] = React.useState(false);
   const [goals, setGoals] = React.useState<Goal[]>([]);
 
+  function handleDeleteGoal(deleteId: number) {
+    console.log('delete id:', deleteId)
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => goal.id !== deleteId)
+    })
+  }
+
   // receive data from Input component
   function handleInputData(data: string) {
     // console.log('data received from Input component:', data)
@@ -46,7 +53,7 @@ export default function App() {
         contentContainerStyle={styles.centerHorizontal}
         data={goals}
         renderItem={({item}) => (
-          <GoalItem goal={item} />  
+          <GoalItem goal={item} deletehandler={handleDeleteGoal} />  
         )}
       />
       {/* <ScrollView contentContainerStyle={styles.centerHorizontal}>
