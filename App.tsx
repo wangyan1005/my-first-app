@@ -4,16 +4,28 @@ import React from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
 
+interface Goal {
+  id: number;
+  text: string;
+}
+
 export default function App() {
   const appName = 'My First React Native App';
   // define a state variable to store the data from Input component
   const [receivedData, setReceivedData] = React.useState('');
   const[isModalVisible, setIsModalVisible] = React.useState(false);
+  const [goals, setGoals] = React.useState<Goal[]>([]);
 
   // receive data from Input component
   function handleInputData(data: string) {
     // console.log('data received from Input component:', data)
-    setReceivedData(data)
+    // setReceivedData(data)
+    // add the object to the goals array
+    let newGoal: Goal = {
+      id: Math.random(),
+      text: data,
+    }
+    setGoals((currGoals) => [...currGoals, newGoal])
     setIsModalVisible(false)
   }
 
