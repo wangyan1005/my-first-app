@@ -22,15 +22,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'bisque',
     marginVertical: 5,
     alignItems: 'center',
+    borderRadius: 10,
   },
   slateBlue: {
-    marginTop: 8,
     color: 'mediumslateblue',
     fontSize: 20,
     fontWeight: 'bold',
-    padding: 10,
-    backgroundColor: 'bisque',
-    borderRadius: 10,
+    marginLeft: 10,
   },
  })
 
