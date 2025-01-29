@@ -24,8 +24,6 @@ export default function App() {
 
   // receive data from Input component
   function handleInputData(data: string) {
-    // console.log('data received from Input component:', data)
-    // setReceivedData(data)
     // add the object to the goals array
     let newGoal: Goal = {
       id: Math.random(),
@@ -36,7 +34,8 @@ export default function App() {
   }
 
   function handleDeleteAll() {
-    Alert.alert('Delete All Goals', 'Are you sure you want to delete all goals?', [
+    Alert.alert('Delete All Goals', 
+      'Are you sure you want to delete all goals?', [
       {text: 'no', style: 'cancel'},
       {text: 'yes', onPress: () => setGoals([])}
     ])
@@ -62,22 +61,20 @@ export default function App() {
         renderItem={({item}) => (
           <GoalItem goal={item} deletehandler={handleDeleteGoal} />  
         )}
-        ListEmptyComponent={() => (
-          <Text>No goals to show</Text>
-        )
+        ListEmptyComponent={
+          <Text style={styles.title}>No goals to show</Text>
         }
-        ListHeaderComponent={() => (
-           (goals.length > 0) && <Text>My Goals</Text>
-        )}
-        ListFooterComponent={() => (
-          (goals.length > 0) && 
+        ListHeaderComponent={goals.length > 0 ? ( 
+          <Text style={styles.title}>My Goals</Text>) : null
+        }
+        ListFooterComponent={goals.length > 0 ? (
           <Button 
             title='Delete All'
             onPress={handleDeleteAll}
-            />
-        )}
+          />
+        ) : null}
         ItemSeparatorComponent={() => (
-          <View style={{height: 2, backgroundColor: 'lightgrey'}} />
+          <View style={styles.separator} />
         )}
 
       />
@@ -117,5 +114,15 @@ const styles = StyleSheet.create({
   centerHorizontal: {
     alignItems: 'center',
   },
-
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'mediumslateblue',
+    marginVertical: 10,
+  },
+  separator: {
+    height: 3,
+    backgroundColor: 'grey',
+    marginVertical: 5, 
+  },
 });
