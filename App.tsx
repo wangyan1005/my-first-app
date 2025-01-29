@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, Button, SafeAreaView, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert} from 'react-native';
 import React from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
@@ -16,7 +16,7 @@ export default function App() {
   const [goals, setGoals] = React.useState<Goal[]>([]);
 
   function handleDeleteGoal(deleteId: number) {
-    console.log('delete id:', deleteId)
+    // console.log('delete id:', deleteId)
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => goal.id !== deleteId)
     })
@@ -24,8 +24,6 @@ export default function App() {
 
   // receive data from Input component
   function handleInputData(data: string) {
-    // console.log('data received from Input component:', data)
-    // setReceivedData(data)
     // add the object to the goals array
     let newGoal: Goal = {
       id: Math.random(),
@@ -33,6 +31,14 @@ export default function App() {
     }
     setGoals((currGoals) => [...currGoals, newGoal])
     setIsModalVisible(false)
+  }
+
+  function handleDeleteAll() {
+    Alert.alert('Delete All Goals', 
+      'Are you sure you want to delete all goals?', [
+      {text: 'no', style: 'cancel'},
+      {text: 'yes', onPress: () => setGoals([])}
+    ])
   }
 
   return (  
@@ -55,6 +61,22 @@ export default function App() {
         renderItem={({item}) => (
           <GoalItem goal={item} deletehandler={handleDeleteGoal} />  
         )}
+        ListEmptyComponent={
+          <Text style={styles.title}>No goals to show</Text>
+        }
+        ListHeaderComponent={goals.length > 0 ? ( 
+          <Text style={styles.title}>My Goals</Text>) : null
+        }
+        ListFooterComponent={goals.length > 0 ? (
+          <Button 
+            title='Delete All'
+            onPress={handleDeleteAll}
+          />
+        ) : null}
+        ItemSeparatorComponent={() => (
+          <View style={styles.separator} />
+        )}
+
       />
       {/* <ScrollView contentContainerStyle={styles.centerHorizontal}>
         {goals.map((goal) => {
@@ -89,17 +111,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
     // alignItems: 'center',
   },
-  // slateBlue: {
-  //   marginTop: 8,
-  //   color: 'mediumslateblue',
-  //   fontSize: 20,
-  //   fontWeight: 'bold',
-  //   padding: 10,
-  //   backgroundColor: 'bisque',
-  //   borderRadius: 10,
-  // },
   centerHorizontal: {
     alignItems: 'center',
   },
-
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'mediumslateblue',
+    marginVertical: 10,
+  },
+  separator: {
+    height: 3,
+    backgroundColor: 'grey',
+    marginVertical: 5, 
+  },
 });
