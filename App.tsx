@@ -1,26 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
 import GoalItem from './components/GoalItem';
 import { database } from './Firebase/firebaseSetup';
-import { writeToDB } from './Firebase/firestoreHelper';
+import { deleteFromDB, writeToDB } from './Firebase/firestoreHelper';
 import {goalData} from './Firebase/firestoreHelper';
+import { onSnapshot, collection} from 'firebase/firestore';
 
 
 export interface GoalDB {
-  id: number;
+  id: string;
   text: string;
 }
 
 export default function App() {
-  console.log(database)
+  // console.log(database)
   const appName = 'My First React Native App';
   const[isModalVisible, setIsModalVisible] = React.useState(false);
   const [goals, setGoals] = React.useState<GoalDB[]>([]);
+  
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(database, 'goals'), (querySnapshot) => {
+      if (querySnapshot.empty) {
+        setGoals([])
+      } else {
+        let newArrayOfGoals: GoalDB[] = []
+        querySnapshot.forEach((docSnapshot) => {
+          newArrayOfGoals.push({
+            ...(docSnapshot.data() as goalData),
+            id: docSnapshot.id
+          }) 
+        })
+        setGoals(newArrayOfGoals)
+      } return () => {
+        unsubscribe()
+      }
+      });
+  
+      return () => {
+        unsubscribe();
+      };
+    }, []);
+    
 
-  function handleDeleteGoal(deleteId: number) {
+  function handleDeleteGoal(deleteId: string) {
+    deleteFromDB(deleteId, 'goals')
     // console.log('delete id:', deleteId)
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => goal.id !== deleteId)

@@ -4,7 +4,7 @@ import { GoalDB } from '@/App'
 
 interface GoalItemProps {
   goal: GoalDB
-  deletehandler: (deleteId: number) => void
+  deletehandler: (deleteId: string) => void
 }
 
 const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
