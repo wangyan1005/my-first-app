@@ -4,16 +4,21 @@ import React from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
 import GoalItem from './components/GoalItem';
+import { database } from './Firebase/firebaseSetup';
+import { writeToDB } from './Firebase/firestoreHelper';
+import {goalData} from './Firebase/firestoreHelper';
 
-export interface Goal {
+
+export interface GoalDB {
   id: number;
   text: string;
 }
 
 export default function App() {
+  console.log(database)
   const appName = 'My First React Native App';
   const[isModalVisible, setIsModalVisible] = React.useState(false);
-  const [goals, setGoals] = React.useState<Goal[]>([]);
+  const [goals, setGoals] = React.useState<GoalDB[]>([]);
 
   function handleDeleteGoal(deleteId: number) {
     // console.log('delete id:', deleteId)
@@ -25,11 +30,12 @@ export default function App() {
   // receive data from Input component
   function handleInputData(data: string) {
     // add the object to the goals array
-    let newGoal: Goal = {
-      id: Math.random(),
+    let newGoal: goalData = {
       text: data,
     }
-    setGoals((currGoals) => [...currGoals, newGoal])
+    writeToDB(newGoal, 'goals')
+
+    // setGoals((currGoals) => [...currGoals, newGoal])
     setIsModalVisible(false)
   }
 
