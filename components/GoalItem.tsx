@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, Button } from 'react-native'
 import React from 'react'
-import { Goal } from '@/App'
+import { GoalDB } from '@/App'
 
 interface GoalItemProps {
-  goal: Goal
-  deletehandler: (deleteId: number) => void
+  goal: GoalDB
+  deletehandler: (deleteId: string) => void
 }
 
 const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {

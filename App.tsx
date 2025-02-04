@@ -1,21 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header';
 import Input from './components/Input';
 import GoalItem from './components/GoalItem';
+import { database } from './Firebase/firebaseSetup';
+import { deleteFromDB, writeToDB } from './Firebase/firestoreHelper';
+import {goalData} from './Firebase/firestoreHelper';
+import { onSnapshot, collection} from 'firebase/firestore';
 
-export interface Goal {
-  id: number;
+
+export interface GoalDB {
+  id: string;
   text: string;
 }
 
 export default function App() {
+  // console.log(database)
   const appName = 'My First React Native App';
   const[isModalVisible, setIsModalVisible] = React.useState(false);
-  const [goals, setGoals] = React.useState<Goal[]>([]);
+  const [goals, setGoals] = React.useState<GoalDB[]>([]);
+  
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(database, 'goals'), (querySnapshot) => {
+      if (querySnapshot.empty) {
+        setGoals([])
+      } else {
+        let newArrayOfGoals: GoalDB[] = []
+        querySnapshot.forEach((docSnapshot) => {
+          newArrayOfGoals.push({
+            ...(docSnapshot.data() as goalData),
+            id: docSnapshot.id
+          }) 
+        })
+        setGoals(newArrayOfGoals)
+      } return () => {
+        unsubscribe()
+      }
+      });
+  
+      return () => {
+        unsubscribe();
+      };
+    }, []);
+    
 
-  function handleDeleteGoal(deleteId: number) {
+  function handleDeleteGoal(deleteId: string) {
+    deleteFromDB(deleteId, 'goals')
     // console.log('delete id:', deleteId)
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => goal.id !== deleteId)
@@ -25,11 +56,12 @@ export default function App() {
   // receive data from Input component
   function handleInputData(data: string) {
     // add the object to the goals array
-    let newGoal: Goal = {
-      id: Math.random(),
+    let newGoal: goalData = {
       text: data,
     }
-    setGoals((currGoals) => [...currGoals, newGoal])
+    writeToDB(newGoal, 'goals')
+
+    // setGoals((currGoals) => [...currGoals, newGoal])
     setIsModalVisible(false)
   }
 
