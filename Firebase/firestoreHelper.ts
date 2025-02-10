@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, deleteDoc } from "firebase/firestore"
+import { addDoc, collection, doc, deleteDoc, getDoc } from "firebase/firestore"
 import { database } from "./firebaseSetup"
 
 export interface goalData {
@@ -22,4 +22,18 @@ export async function deleteFromDB(id: string, collectionName: string) {
         console.error('Error deleting document:', e)
     }
     
+}
+
+//  get a document by id   
+export async function readDocFromDB(id: string, collectionName: string) {
+    try {
+        const docRef = doc(database, collectionName, id)
+        const docSnapshot = await getDoc(docRef)
+        if (docSnapshot.exists()) {
+            return docSnapshot.data()
+        } 
+        return null
+    } catch (e) {
+    console.error('Error getting document:', e)
+    }
 }

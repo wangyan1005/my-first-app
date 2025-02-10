@@ -10,7 +10,7 @@ import {goalData} from '../Firebase/firestoreHelper';
 import { onSnapshot, collection} from 'firebase/firestore';
 
 
-export interface GoalDB {
+export interface GoalDB extends goalData {
   id: string;
   text: string;
 }
