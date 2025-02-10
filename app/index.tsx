@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert} from 'react-native';
 import React, { useEffect } from 'react';
-import Header from './components/Header';
-import Input from './components/Input';
-import GoalItem from './components/GoalItem';
-import { database } from './Firebase/firebaseSetup';
-import { deleteFromDB, writeToDB } from './Firebase/firestoreHelper';
-import {goalData} from './Firebase/firestoreHelper';
+import Header from '../components/Header';
+import Input from '../components/Input';
+import GoalItem from '../components/GoalItem';
+import { database } from '../Firebase/firebaseSetup';
+import { deleteFromDB, writeToDB } from '../Firebase/firestoreHelper';
+import {goalData} from '../Firebase/firestoreHelper';
 import { onSnapshot, collection} from 'firebase/firestore';
 
 
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50,
+    // marginTop: 50,
   },
   topContainer: {
     alignItems: 'center',
