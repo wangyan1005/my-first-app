@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { useLocalSearchParams } from "expo-router"; // Replace "some-module" with the correct module name
+import { Stack, useLocalSearchParams } from "expo-router"; 
 import { useEffect, useState} from "react";
 import { goalData, readDocFromDB } from "@/Firebase/firestoreHelper";
 
@@ -24,7 +24,8 @@ export default function GoalDetails() {
 
     return (
         <View>
-            <Text>Details of {goal?.text}</Text>
+            <Stack.Screen options={{headerTitle: goal? goal.text : ''}} />
+            <Text>Details of {goal?.text} and id is {id}</Text>
         </View>
     )
 } 
