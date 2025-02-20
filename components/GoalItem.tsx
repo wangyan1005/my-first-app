@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Button} from 'react-native'
-import { Link, useRouter } from 'expo-router'
+import { View, Text, StyleSheet, Button, Pressable} from 'react-native'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { GoalDB } from '@/app'
 
@@ -12,12 +12,15 @@ const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <Pressable 
+      style={styles.container}
+      onPress={() => router.navigate(`/goals/${goal.id}`)}
+      >
       <Text style={styles.slateBlue}>{goal.text}</Text>
-      <Button title="info" onPress={() => router.navigate(`/goals/${goal.id}`)} />
+      {/* <Button title="info" onPress={() => router.navigate(`/goals/${goal.id}`)} /> */}
       <Button title="x" onPress={() => deletehandler(goal.id)} />
       {/* <Link href={`/goals/${goal.id}`}> info </Link> */}  
-    </View>
+    </Pressable>
   )
 }
 
