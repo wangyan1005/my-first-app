@@ -178,5 +178,6 @@ const styles = StyleSheet.create({
   },
   defaultStyle: {
     padding: 10,
+    borderRadius: 10,
   },
 });

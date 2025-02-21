@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   defaultStyle: {
     backgroundColor: 'azure',
     justifyContent: 'center',
-    borderRadius: 10,
+  
   },
   defaultPressedStyle: {
     opacity: 0.5,
