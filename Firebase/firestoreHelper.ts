@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore"
+import { addDoc, collection, doc, deleteDoc, getDoc, setDoc, getDocs } from "firebase/firestore"
 import { database } from "./firebaseSetup"
 
 export interface goalData {
@@ -45,5 +45,17 @@ export async function updateDB(id: string, data:{[key: string]: any}, collection
     } catch (e) {
         console.error('Error updating document:', e)
     }
+}
+
+export async function deleteAllFromDB(collectionName: string) {
+    try {
+        const querySnapshot = await getDocs(collection(database, collectionName))
+        querySnapshot.forEach((document) => {
+            deleteDoc(doc(database, collectionName, document.id))
+        })
+    } catch (e) {
+        console.error('Error deleting all documents:', e)
+    }
+
 }
     

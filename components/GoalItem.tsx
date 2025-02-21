@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 import React from 'react'
 import { GoalDB } from '@/app'
 import PressableButton from './PressableButton'
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface GoalItemProps {
   goal: GoalDB
@@ -19,11 +20,12 @@ const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
       onPress={() => router.navigate(`/goals/${goal.id}`)}
       >
       <Text style={styles.slateBlue}>{goal.text}</Text>
-      <PressableButton   
+      <PressableButton  
         pressedHandler={() => deletehandler(goal.id)}
         pressedStyle={styles.pressed}
+        componentStyle={styles.defaultStyle}
       >
-        <Text style={styles.slateBlue}>x</Text>
+      <Ionicons name="trash" size={22} color="black" />
       {/* <Button title="info" onPress={() => router.navigate(`/goals/${goal.id}`)} /> */}
       {/* <Button title="x" onPress={() => deletehandler(goal.id)} /> */}
       {/* <Link href={`/goals/${goal.id}`}> info </Link> */} 
@@ -56,7 +58,11 @@ const styles = StyleSheet.create({
   },
   androidStyle: {
     color: 'grey',
-  }
+  },
+  defaultStyle: {
+    backgroundColor: 'bisque',
+
+  },
  })
 
 export default GoalItem
