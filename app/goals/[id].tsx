@@ -34,7 +34,7 @@ export default function GoalDetails() {
     return (
         <View>
             <Stack.Screen options={{headerTitle: goal ? (warning ? 'Warning' : goal.text) : '', 
-                headerRight: () => (<Button title="warning" color="white" onPress={handlePress} />) }} />
+                headerRight: () => (<Button title="warning"  onPress={handlePress} />) }} />
             <Text style={warning && styles.warning}>Details of {goal?.text} and id is {id}</Text>
         </View>
     )
