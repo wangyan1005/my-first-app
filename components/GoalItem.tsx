@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, Pressable} from 'react-native'
+import { Text, StyleSheet, Button, Pressable} from 'react-native'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { GoalDB } from '@/app'
@@ -12,8 +12,9 @@ const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
   const router = useRouter();
 
   return (
-    <Pressable 
-      style={styles.container}
+    <Pressable
+      android_ripple={styles.androidStyle} 
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={() => router.navigate(`/goals/${goal.id}`)}
       >
       <Text style={styles.slateBlue}>{goal.text}</Text>
@@ -41,6 +42,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  pressed: {
+    backgroundColor: 'darksalmon',
+    opacity: 0.5,
+  },
+  androidStyle: {
+    color: 'grey',
+  }
  })
 
 export default GoalItem
