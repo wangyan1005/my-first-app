@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert} from 'react-native';
+import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert, Pressable} from 'react-native';
 import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Input from '../components/Input';
@@ -8,6 +8,8 @@ import { database } from '../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB } from '../Firebase/firestoreHelper';
 import {goalData} from '../Firebase/firestoreHelper';
 import { onSnapshot, collection} from 'firebase/firestore';
+import PressableButton from '../components/PressableButton';
+import { deleteAllFromDB } from '../Firebase/firestoreHelper';
 
 
 export interface GoalDB extends goalData {
@@ -69,7 +71,7 @@ export default function App() {
     Alert.alert('Delete All Goals', 
       'Are you sure you want to delete all goals?', [
       {text: 'no', style: 'cancel'},
-      {text: 'yes', onPress: () => setGoals([])}
+      {text: 'yes', onPress: () => deleteAllFromDB('goals')}
     ])
   }
 
@@ -83,8 +85,15 @@ export default function App() {
           inputHandler={handleInputData} 
           visibility={isModalVisible}
           onDismiss={() => setIsModalVisible(false)} /> 
-        <Button 
-          title="Add a goal" onPress={() => setIsModalVisible(true)} />
+          <PressableButton
+            pressedHandler={() => setIsModalVisible(true)}
+            pressedStyle={styles.pressed}
+            componentStyle={styles.defaultStyle}
+          >
+            <Text style={styles.text}>Add a goal</Text>
+          </PressableButton> 
+         {/* <Button 
+          title="Add a goal" onPress={() => setIsModalVisible(true)} />  */}
       </View>
       <View style={styles.bottomContainer}>
        <FlatList 
@@ -156,5 +165,18 @@ const styles = StyleSheet.create({
     height: 3,
     backgroundColor: 'grey',
     marginVertical: 5, 
+  },
+  pressed: {
+    backgroundColor: 'darksalmon',
+    opacity: 0.5,
+  },
+  text: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+    
+  },
+  defaultStyle: {
+    padding: 10,
   },
 });
