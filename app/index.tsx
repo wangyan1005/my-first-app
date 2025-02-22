@@ -74,6 +74,7 @@ export default function App() {
       {text: 'yes', onPress: () => deleteAllFromDB('goals')}
     ])
   }
+  
 
   return (  
     <SafeAreaView style={styles.container}>
@@ -99,8 +100,13 @@ export default function App() {
        <FlatList 
         contentContainerStyle={styles.centerHorizontal}
         data={goals}
-        renderItem={({item}) => (
-          <GoalItem goal={item} deletehandler={handleDeleteGoal} />  
+        renderItem={({item, separators}) => (
+          <GoalItem 
+            goal={item} 
+            deletehandler={handleDeleteGoal}
+            pressedInHandler={() => separators.highlight()}
+            pressedOutHandler={() => separators.unhighlight()}
+          />  
         )}
         ListEmptyComponent={
           <Text style={styles.title}>No goals to show</Text>
@@ -114,8 +120,8 @@ export default function App() {
             onPress={handleDeleteAll}
           />
         ) : null}
-        ItemSeparatorComponent={() => (
-          <View style={styles.separator} />
+        ItemSeparatorComponent={({ highlighted }) => (
+          <View style={[styles.separator, highlighted && styles.highlightedSeparator]} />
         )}
 
       />
@@ -180,4 +186,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  highlightedSeparator: {
+    backgroundColor: 'dodgerblue',
+  }
 });

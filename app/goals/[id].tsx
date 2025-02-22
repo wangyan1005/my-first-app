@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router"; 
 import { useEffect, useState} from "react";
 import { goalData, readDocFromDB, updateDB } from "@/Firebase/firestoreHelper";
@@ -43,11 +43,12 @@ export default function GoalDetails() {
                     pressedStyle={styles.pressed}
                     componentStyle={styles.defaultStyle} 
                     >
-                    <Ionicons name="warning-outline" size={24} color="black" />
+                    <Ionicons name="warning-outline" size={24} color="white" />
                 </PressableButton>
                 ),
              }} />
-            <Text style={warning && styles.warning}>Details of {goal?.text} and id is {id}</Text>
+            <Text style={warning && styles.warning}>You are seeing the 
+                details of the goal with text: {goal?.text} and id: {id}</Text>
         </View>
     )
 } 
