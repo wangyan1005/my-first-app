@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Button, Pressable} from 'react-native'
+import { Text, StyleSheet, Pressable, Alert} from 'react-native'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { GoalDB } from '@/app'
@@ -13,11 +13,29 @@ interface GoalItemProps {
 const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
   const router = useRouter();
 
+  function handleLongPress() {
+    Alert.alert(
+      'Delete',
+      'Are you sure you want to delete this goal?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => deletehandler(goal.id),
+        },
+      ],
+    );
+  };
+
   return (
     <Pressable
       android_ripple={styles.androidStyle} 
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={() => router.navigate(`/goals/${goal.id}`)}
+      onLongPress={handleLongPress}
       >
       <Text style={styles.slateBlue}>{goal.text}</Text>
       <PressableButton  

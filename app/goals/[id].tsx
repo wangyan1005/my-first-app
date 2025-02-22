@@ -38,6 +38,7 @@ export default function GoalDetails() {
             <Stack.Screen options={{headerTitle: goal ? (warning ? 'warning' : goal.text) : '', 
                 headerRight: () => (
                  <PressableButton 
+                    pressedInHandler={handlePress}
                     pressedHandler={handlePress}
                     pressedStyle={styles.pressed}
                     componentStyle={styles.defaultStyle} 
