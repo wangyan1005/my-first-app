@@ -27,6 +27,25 @@ export async function deleteFromDB(id: string, collectionName: string) {
     
 }
 
+// get all documents 
+export async function readAllFromDB(collectionName: string) {
+    try {
+        const querySnapshot = await getDocs(collection(database, collectionName))
+        if (querySnapshot.empty) {
+            return null
+        }
+        let data: User[] = []
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data() as User)
+        })
+        return data
+        } catch (e) {
+            console.error('Error getting documents:', e)
+        }
+    }
+    
+
+
 //  get a document by id   
 export async function readDocFromDB(id: string, collectionName: string) {
     try {
