@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StyleProp, ViewStyle, Pressable } from 'react-native'
+import { StyleSheet, View, StyleProp, ViewStyle, Pressable } from 'react-native'
 import React from 'react'
 
 interface PressableButtonProps {
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   defaultStyle: {
     backgroundColor: 'azure',
     justifyContent: 'center',
-    borderRadius: 10,
+  
   },
   defaultPressedStyle: {
     opacity: 0.5,

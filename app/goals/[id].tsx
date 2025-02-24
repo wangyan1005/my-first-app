@@ -1,7 +1,9 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router"; 
 import { useEffect, useState} from "react";
 import { goalData, readDocFromDB, updateDB } from "@/Firebase/firestoreHelper";
+import PressableButton from "@/components/PressableButton";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function GoalDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -33,9 +35,20 @@ export default function GoalDetails() {
 
     return (
         <View>
-            <Stack.Screen options={{headerTitle: goal ? (warning ? 'Warning' : goal.text) : '', 
-                headerRight: () => (<Button title="warning"  onPress={handlePress} />) }} />
-            <Text style={warning && styles.warning}>Details of {goal?.text} and id is {id}</Text>
+            <Stack.Screen options={{headerTitle: goal ? (warning ? 'warning' : goal.text) : '', 
+                headerRight: () => (
+                 <PressableButton 
+                    pressedInHandler={handlePress}
+                    pressedHandler={handlePress}
+                    pressedStyle={styles.pressed}
+                    componentStyle={styles.defaultStyle} 
+                    >
+                    <Ionicons name="warning-outline" size={24} color="white" />
+                </PressableButton>
+                ),
+             }} />
+            <Text style={warning && styles.warning}>You are seeing the 
+                details of the goal with text: {goal?.text} and id: {id}</Text>
         </View>
     )
 } 
@@ -43,5 +56,13 @@ export default function GoalDetails() {
 const styles = StyleSheet.create({
     warning: {
         color: 'red',
-    }
+    }, 
+    pressed: {
+        opacity: 0.5,
+        backgroundColor: 'lightsteelblue',
+    },
+    defaultStyle: {
+        backgroundColor: 'cornflowerblue',
+
+    },
 })

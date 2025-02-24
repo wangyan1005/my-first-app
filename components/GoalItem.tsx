@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Button, Pressable} from 'react-native'
+import { Text, StyleSheet, Pressable, Alert} from 'react-native'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { GoalDB } from '@/app'
@@ -8,17 +8,39 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 interface GoalItemProps {
   goal: GoalDB
   deletehandler: (deleteId: string) => void
+  pressedInHandler: () => void
+  pressedOutHandler: () => void
 }
 
-const GoalItem = ({ goal, deletehandler }: GoalItemProps) => {
+const GoalItem = ({ goal, deletehandler, pressedInHandler, pressedOutHandler }: GoalItemProps) => {
   const router = useRouter();
+
+  function handleLongPress() {
+    Alert.alert(
+      'Delete',
+      'Are you sure you want to delete this goal?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => deletehandler(goal.id),
+        },
+      ],
+    );
+  };
 
   return (
     <Pressable
       android_ripple={styles.androidStyle} 
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={() => router.navigate(`/goals/${goal.id}`)}
-      >
+      onLongPress={handleLongPress}
+      onPressIn={pressedInHandler}
+      onPressOut={pressedOutHandler}
+    >
       <Text style={styles.slateBlue}>{goal.text}</Text>
       <PressableButton  
         pressedHandler={() => deletehandler(goal.id)}
@@ -44,6 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: 'space-between',
     height: 50,
+    width: '35%',
   },
   slateBlue: {
     color: 'mediumslateblue',
@@ -61,6 +84,7 @@ const styles = StyleSheet.create({
   },
   defaultStyle: {
     backgroundColor: 'bisque',
+    padding: 5,
 
   },
  })
