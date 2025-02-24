@@ -1,12 +1,14 @@
 import { addDoc, collection, doc, deleteDoc, getDoc, setDoc, getDocs } from "firebase/firestore"
 import { database } from "./firebaseSetup"
+import { User } from "../components/GoalUsers"
 
 export interface goalData {
     text: string;
     warning?: boolean;
+
 }   
 
-export async function writeToDB(data: goalData, collectionName: string) {
+export async function writeToDB(data: goalData | User , collectionName: string) {
     try {
         const docRef = await addDoc(collection(database, collectionName), data)
         return docRef.id
