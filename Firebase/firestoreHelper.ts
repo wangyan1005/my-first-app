@@ -1,12 +1,14 @@
 import { addDoc, collection, doc, deleteDoc, getDoc, setDoc, getDocs } from "firebase/firestore"
 import { database } from "./firebaseSetup"
+import { User } from "../components/GoalUsers"
 
 export interface goalData {
     text: string;
     warning?: boolean;
+
 }   
 
-export async function writeToDB(data: goalData, collectionName: string) {
+export async function writeToDB(data: goalData | User , collectionName: string) {
     try {
         const docRef = await addDoc(collection(database, collectionName), data)
         return docRef.id
@@ -24,6 +26,25 @@ export async function deleteFromDB(id: string, collectionName: string) {
     }
     
 }
+
+// get all documents 
+export async function readAllFromDB(collectionName: string) {
+    try {
+        const querySnapshot = await getDocs(collection(database, collectionName))
+        if (querySnapshot.empty) {
+            return null
+        }
+        let data: User[] = []
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data() as User)
+        })
+        return data
+        } catch (e) {
+            console.error('Error getting documents:', e)
+        }
+    }
+    
+
 
 //  get a document by id   
 export async function readDocFromDB(id: string, collectionName: string) {

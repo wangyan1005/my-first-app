@@ -4,6 +4,7 @@ import { useEffect, useState} from "react";
 import { goalData, readDocFromDB, updateDB } from "@/Firebase/firestoreHelper";
 import PressableButton from "@/components/PressableButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import GoalUsers from "@/components/GoalUsers";
 
 export default function GoalDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -49,6 +50,7 @@ export default function GoalDetails() {
              }} />
             <Text style={warning && styles.warning}>You are seeing the 
                 details of the goal with text: {goal?.text} and id: {id}</Text>
+            <GoalUsers goalId={id} /> 
         </View>
     )
 } 

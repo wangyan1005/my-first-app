@@ -4,6 +4,7 @@ import React from 'react'
 import { GoalDB } from '@/app'
 import PressableButton from './PressableButton'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import GoalUsers from './GoalUsers'
 
 interface GoalItemProps {
   goal: GoalDB
@@ -51,7 +52,7 @@ const GoalItem = ({ goal, deletehandler, pressedInHandler, pressedOutHandler }: 
       {/* <Button title="info" onPress={() => router.navigate(`/goals/${goal.id}`)} /> */}
       {/* <Button title="x" onPress={() => deletehandler(goal.id)} /> */}
       {/* <Link href={`/goals/${goal.id}`}> info </Link> */} 
-      </PressableButton> 
+      </PressableButton>
     </Pressable>
   )
 }
