@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Button, SafeAreaView, FlatList, Alert, Pressable} from 'react-native';
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Input from '../components/Input';
-import GoalItem from '../components/GoalItem';
-import { database } from '../Firebase/firebaseSetup';
-import { deleteFromDB, writeToDB } from '../Firebase/firestoreHelper';
-import {goalData} from '../Firebase/firestoreHelper';
+import Header from '../../components/Header';
+import Input from '../../components/Input';
+import GoalItem from '../../components/GoalItem';
+import { database } from '../../Firebase/firebaseSetup';
+import { deleteFromDB, writeToDB } from '../../Firebase/firestoreHelper';
+import {goalData} from '../../Firebase/firestoreHelper';
 import { onSnapshot, collection} from 'firebase/firestore';
-import PressableButton from '../components/PressableButton';
-import { deleteAllFromDB } from '../Firebase/firestoreHelper';
+import PressableButton from '../../components/PressableButton';
+import { deleteAllFromDB } from '../../Firebase/firestoreHelper';
 
 
 export interface GoalDB extends goalData {
