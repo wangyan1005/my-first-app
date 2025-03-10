@@ -2,14 +2,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/Firebase/firebaseSetup';
 
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    router.replace('signup');
+  const handleLogin = async () => {
+    if (email === '' || password === '') {
+      alert('Please fill in all fields');
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+    } catch (e) {
+      console.error('Error signing in:', e)
+    }
   };
 
   return (

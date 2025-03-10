@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/Firebase/firebaseSetup';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -9,8 +11,25 @@ export default function SignupScreen() {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
 
-  const handleSignup = () => {
-    router.replace('login');
+  const handleSignup = async () => {
+    if (email === '' || password === '' || confirm === '') {
+        alert('Please fill in all fields');
+        return;
+    }
+    // verify the email address
+    // verify the password and comfirm password
+    if (password !== confirm) {
+        alert('Passwords do not match');
+        return;
+    }
+    try {
+        await createUserWithEmailAndPassword(auth, email, password)   
+    }
+    catch (e) {
+        console.error('Error creating user:', e)
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+    
   };
 
   return (
