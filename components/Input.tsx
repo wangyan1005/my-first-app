@@ -1,10 +1,11 @@
 import { View, TextInput, Text, Button, StyleSheet, Modal, Alert, Image } from 'react-native'
 import React from 'react'
 import ImageManager from './ImageManager'
+import { userInput } from '@/app/(protected)'
 
 interface InputProps {
   focus: boolean
-  inputHandler: (data: string) => void
+  inputHandler: (data: userInput) => void
   visibility: boolean
   onDismiss: () => void
 }
@@ -12,11 +13,16 @@ interface InputProps {
 const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
   const [text, setText] = React.useState('');
   const [isFocused, setIsFocused] = React.useState(true);
+  const [takenImageUri, setTakenImageUri] = React.useState<string | null>(null);
 
   function handleConfirm() {
     // console.log('user has typed in:', text)
-    inputHandler(text)
+    inputHandler({text: text, imageUri: takenImageUri})
     setText('')
+  }
+
+  function imageUriHandler(imageUri: string) {
+    setTakenImageUri(imageUri);
   }
 
   function handleCancel() {
@@ -56,7 +62,7 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
             onEndEditing={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
           />
-          <ImageManager />
+          <ImageManager imageUriHandler={imageUriHandler} />
 
           {text && isFocused &&
             <Text>Count: {text.length}</Text>

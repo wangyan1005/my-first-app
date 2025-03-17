@@ -17,6 +17,11 @@ export interface GoalDB extends goalData {
   id: string;
 }
 
+export interface userInput {
+  text: string;
+  imageUri: string | null;
+}
+
 export default function App() {
   // console.log(database)
   const appName = 'My First React Native App';
@@ -60,10 +65,11 @@ export default function App() {
   }
 
   // receive data from Input component
-  function handleInputData(data: string) {
+  function handleInputData(data: userInput) {
+    console.log('user has entered in:', data)
     // add the object to the goals array
     let newGoal: goalData = {
-      text: data,
+      text: data.text,
       owner: auth.currentUser? auth.currentUser.uid : 'null'
     }
     writeToDB(newGoal, 'goals')

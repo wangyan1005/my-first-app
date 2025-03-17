@@ -28,8 +28,8 @@
     "plugins": [
       "expo-router",["expo-image-picker",
     {
-      "photoPermission": "The app needs access to your photos and add to your goals.",
-      "cameraPermission": "The app needs access to your camera and let you take photos to add to your goals."
+      "photoPermission": "The app needs access to your photos.",
+      "cameraPermission": "The app needs access to your camera."
     }]
     ]
   }

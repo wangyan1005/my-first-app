@@ -2,7 +2,11 @@ import { View, Text, Button, Alert, Image} from 'react-native'
 import React from 'react'
 import * as ImagePicker from 'expo-image-picker';
 
-export default function ImageManager() {
+interface ImageManagerProps {
+    imageUriHandler: (imageUri: string) => void
+}
+
+export default function ImageManager({imageUriHandler}: ImageManagerProps) {
   const [ response,requestPermission ] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = React.useState<string | null>(null);
   
@@ -27,6 +31,7 @@ export default function ImageManager() {
       const result = await ImagePicker.launchCameraAsync({ allowsEditing: true }); 
       if (!result.canceled) { 
         setImageUri(result.assets[0].uri);
+        imageUriHandler(result.assets[0].uri);
       }
     }
     catch (error) {
