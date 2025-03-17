@@ -5,7 +5,7 @@ import { User } from "../components/GoalUsers"
 export interface goalData {
     text: string;
     warning?: boolean;
-
+    owner: string;
 }   
 
 export async function writeToDB(data: goalData | User , collectionName: string) {

@@ -1,5 +1,6 @@
 import { View, TextInput, Text, Button, StyleSheet, Modal, Alert, Image } from 'react-native'
 import React from 'react'
+import ImageManager from './ImageManager'
 
 interface InputProps {
   focus: boolean
@@ -55,6 +56,7 @@ const Input = ({focus, inputHandler, visibility, onDismiss } : InputProps) => {
             onEndEditing={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
           />
+          <ImageManager />
 
           {text && isFocused &&
             <Text>Count: {text.length}</Text>
