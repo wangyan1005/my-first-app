@@ -4,17 +4,22 @@ import React, { useEffect } from 'react';
 import Header from '../../components/Header';
 import Input from '../../components/Input';
 import GoalItem from '../../components/GoalItem';
-import { database } from '../../Firebase/firebaseSetup';
+import { auth, database } from '../../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB } from '../../Firebase/firestoreHelper';
 import {goalData} from '../../Firebase/firestoreHelper';
 import { onSnapshot, collection} from 'firebase/firestore';
 import PressableButton from '../../components/PressableButton';
 import { deleteAllFromDB } from '../../Firebase/firestoreHelper';
+import { where, query } from 'firebase/firestore';
 
 
 export interface GoalDB extends goalData {
   id: string;
+}
+
+export interface userInput {
   text: string;
+  imageUri: string | null;
 }
 
 export default function App() {
@@ -24,22 +29,26 @@ export default function App() {
   const [goals, setGoals] = React.useState<GoalDB[]>([]);
   
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(database, 'goals'), (querySnapshot) => {
-      if (querySnapshot.empty) {
-        setGoals([])
-      } else {
-        let newArrayOfGoals: GoalDB[] = []
-        querySnapshot.forEach((docSnapshot) => {
-          newArrayOfGoals.push({
-            ...(docSnapshot.data() as goalData),
-            id: docSnapshot.id
-          }) 
-        })
-        setGoals(newArrayOfGoals)
-      } return () => {
-        unsubscribe()
+    const unsubscribe = onSnapshot(
+      query(
+        collection(database, 'goals'), 
+        where("owner", "==", auth.currentUser?.uid || 'null' )
+      ), 
+      (querySnapshot) => {
+        if (querySnapshot.empty) {
+          setGoals([]);
+        } else {
+          let newArrayOfGoals: GoalDB[] = [];
+          querySnapshot.forEach((docSnapshot) => {
+            newArrayOfGoals.push({
+              ...(docSnapshot.data() as goalData),
+              id: docSnapshot.id,
+            });
+          });
+          setGoals(newArrayOfGoals);
+        }
       }
-      });
+    );
   
       return () => {
         unsubscribe();
@@ -56,10 +65,12 @@ export default function App() {
   }
 
   // receive data from Input component
-  function handleInputData(data: string) {
+  function handleInputData(data: userInput) {
+    console.log('user has entered in:', data)
     // add the object to the goals array
     let newGoal: goalData = {
-      text: data,
+      text: data.text,
+      owner: auth.currentUser? auth.currentUser.uid : 'null'
     }
     writeToDB(newGoal, 'goals')
 
