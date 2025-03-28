@@ -11,6 +11,8 @@ import { onSnapshot, collection} from 'firebase/firestore';
 import PressableButton from '../../components/PressableButton';
 import { deleteAllFromDB } from '../../Firebase/firestoreHelper';
 import { where, query } from 'firebase/firestore';
+import { ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '../../Firebase/firebaseSetup';
 
 
 export interface GoalDB extends goalData {
@@ -64,19 +66,46 @@ export default function App() {
     })
   }
 
+  async function fetchImage(uri: string) {
+    try {
+      const response = await fetch(uri) 
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      return uploadResult.metadata.fullPath
+    }
+    catch (e) {
+      console.error('Error fetching image:', e)
+    }
+  }
+
+
   // receive data from Input component
-  function handleInputData(data: userInput) {
+  async function handleInputData(data: userInput) {
     console.log('user has entered in:', data)
+    let storgeImageUri = null
+    if (data.imageUri) {
+      const uri =  await fetchImage(data.imageUri)
+      if (uri) {
+        storgeImageUri = uri
+    }
     // add the object to the goals array
     let newGoal: goalData = {
       text: data.text,
-      owner: auth.currentUser? auth.currentUser.uid : 'null'
+      owner: auth.currentUser? auth.currentUser.uid : 'null',
+      imageUri: storgeImageUri,
     }
+    
     writeToDB(newGoal, 'goals')
 
     // setGoals((currGoals) => [...currGoals, newGoal])
     setIsModalVisible(false)
   }
+}
 
   function handleDeleteAll() {
     Alert.alert('Delete All Goals', 
