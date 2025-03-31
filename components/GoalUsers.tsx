@@ -4,8 +4,12 @@ import { View, Text, FlatList } from 'react-native';
 import { readAllFromDB } from "@/Firebase/firestoreHelper";
 
 export interface User {
-    id: number;
-    name: string;
+    id?: number;
+    name?: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    }
 }
 
 interface GoalUsersProps {

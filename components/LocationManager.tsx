@@ -1,8 +1,10 @@
 import { View, Text, Button, Alert, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Location from 'expo-location';
 import { useState } from 'react';
-import {router, useLocalSearchParams} from 'expo-router';
+import {router, useLocalSearchParams, usePathname} from 'expo-router';
+import { readDocFromDB, writeToDB } from '@/Firebase/firestoreHelper';
+import { auth } from '@/Firebase/firebaseSetup';
 
 export interface locationData {
     latitude: number;
@@ -10,9 +12,38 @@ export interface locationData {
   }
 
 export default function LocationManager() {
-  const params = useLocalSearchParams();
+  const { latitude, longitude } = useLocalSearchParams();
+  
   const [response, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState<locationData | null>(null);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      setLocation({
+        latitude: Array.isArray(latitude) ? parseFloat(latitude[0]) : parseFloat(latitude),
+        longitude: Array.isArray(longitude) ? parseFloat(longitude[0]) : parseFloat(longitude)
+      });
+    }
+  }, [latitude, longitude]);
+
+  useEffect(() => {
+    async function fetchUserdata() {
+      try {
+        if (auth.currentUser?.uid) {
+          const data = await readDocFromDB(auth.currentUser?.uid, 'users');
+            if (data?.location) {
+              setLocation({
+                latitude: data.location.latitude,
+                longitude: data.location.longitude
+              });
+            }
+          } 
+        } catch (e) {
+          console.error('Error getting location:', e)
+        }
+    }
+    fetchUserdata();
+  })
 
   async function verifyPermissions() {
     try {
@@ -49,8 +80,15 @@ export default function LocationManager() {
   }
 
   function chooseLocationHanlder() {
-    router.navigate('/(protected)/map');
-  }
+    if (location) {
+      router.navigate({
+        pathname: 'map',
+        params: {
+          latitude: location.latitude,
+          longitude: location.longitude
+        }
+     });
+    }}
 
   return (
     <View>
@@ -61,6 +99,14 @@ export default function LocationManager() {
           source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location?.latitude},${location?.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location?.latitude},${location?.longitude}&key=AIzaSyAtLtdEnSQqCxleOlrkBvnGJcDPoYr8yGc` }} 
           style={{ width: 300, height: 200}} />
         }
+        <Button title="save to Firebase" onPress={async () => {
+          if (location) {
+            await writeToDB({location}, 'users', auth.currentUser?.uid);
+          } else {
+            Alert.alert('Location is not available.');
+          }
+        }} />
+
         </View>
     </View>
   )
