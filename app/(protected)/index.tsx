@@ -13,6 +13,7 @@ import { deleteAllFromDB } from '../../Firebase/firestoreHelper';
 import { where, query } from 'firebase/firestore';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../Firebase/firebaseSetup';
+import { setNotificationHandler } from 'expo-notifications';
 
 
 export interface GoalDB extends goalData {
@@ -24,7 +25,17 @@ export interface userInput {
   imageUri: string | null;
 }
 
+setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }
+}});
+
 export default function App() {
+  
   // console.log(database)
   const appName = 'My First React Native App';
   const[isModalVisible, setIsModalVisible] = React.useState(false);

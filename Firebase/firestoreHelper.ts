@@ -9,14 +9,20 @@ export interface goalData {
     imageUri ?: string | null;
 }   
 
-export async function writeToDB(data: goalData | User , collectionName: string) {
+export async function writeToDB(data: goalData | User, collectionName: string, id?: string) {
     try {
-        const docRef = await addDoc(collection(database, collectionName), data)
-        return docRef.id
-    } catch (e) {
-        console.error('Error adding document:', e)
+        if (id) {
+            const docRef = doc(database, collectionName, id);
+            await setDoc(docRef, data, { merge: true });
+            console.log("Document updated with ID: ", id);
+        } else {
+            const docRef = await addDoc(collection(database, collectionName), data);
+            console.log("Document written with ID: ", docRef.id);
+        }
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        throw error;
     }
-
 }
 
 export async function deleteFromDB(id: string, collectionName: string) {
@@ -80,4 +86,3 @@ export async function deleteAllFromDB(collectionName: string) {
     }
 
 }
-    
